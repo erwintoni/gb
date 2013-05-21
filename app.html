@@ -1,0 +1,171 @@
+<html>
+  <head>
+  <meta charset="utf-8">
+    <title>Grade Badge</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-responsive.css" rel="stylesheet">
+    <!--style type="text/css">
+      .thumbnail > img {
+        
+      }
+	  .thumbnails > li {
+	    float : left;
+		
+	  }
+    </style -->
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	
+  <link href="style.css" type="text/css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" onclick="a.screen('title')">GradeBadge</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+			        <li><a href="#" onclick="a.screen('myBadges')">My Badges</a></li>
+              <li><a href="#" onclick="a.screen('findGroups')">Find Group</a></li>
+              <li><a href="issuer">Issue Badges</a></li>
+              <li id="name"></li>
+              <li id="login" style="display:none;"></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    
+    <div id="loading" class="container" style="display:block;">
+      <div id="loading_bar" class="progress progress-striped active">
+        <div class="bar" style="width: 0%;"></div>
+      </div>  
+    </div>
+    
+    <div id="login" class="container" style="display:none;"></div>
+    
+    <!-- Profile Page-->
+    <div id="profile" class="container" style="display:none;">
+      This is profile page
+      <ul id="profile_profile" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>      
+    </div>
+    
+    <!-- Title Page-->
+    <div id="title" class="container" style="display:none;">
+      Welcome, this is member page. 
+      <button onclick="a.screen('myBadges')" class="btn btn-primary">View My Badge</button>
+      <button onclick="a.screen('findGroups')" class="btn btn-primary">Find Groups</button>
+            <button onclick="" class="btn btn-primary">Test</button>
+      <br/><br/>
+      <ul id="profile_title" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>
+    </div>
+    
+    <!-- Find Groups Page -->
+    <div id="findGroups" class="container" style="display:none;">
+      <h2>Group List that you might like:</h2>
+      <!-- a href="#searchGroupModal" role="button" class="btn" data-toggle="modal">Search group</a -->
+      <button id="groups_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i>Refresh</button>
+      <br/><br/>      
+      <ul id="findgroups_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- My Badge Page -->
+    <div id="myBadges" class="container" style="display:none;">
+    <button id="groups_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i>Refresh</button>
+      <br/><br/>
+      <ul id="my_badges_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>
+    </div>
+    
+    
+    <!-- Login Modal-->
+    <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Facebook Login</h3>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary" type="button" onclick="a.fbLogin()">Facebook Login</button>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  
+    <footer style="text-align: center">
+        <p>&copy; Grade Badge 2013</p>
+    </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    
+    <!--  -->
+    <script>
+      (function() {
+        var n = 2;
+        window.fbAsyncInit = function() {
+          if (--n === 0) {
+            // TODO : How to get FB_APP_ID value from client side
+            //a.fbInit('466760923387961');
+            a.fbInit('FB_APP_ID');
+          }
+        };
+      }());
+
+      (function(d) {
+        var ref = d.getElementsByTagName('script')[0],
+            fbJs = d.createElement('script'),
+            aJs = d.createElement('script');
+        fbJs.id = 'facebook-jssdk'; 
+        fbJs.async = true;
+        fbJs.src = '//connect.facebook.net/en_US/all.js';
+        aJs.async = true;
+        aJs.src = 'app.js';
+        ref.parentNode.insertBefore(fbJs, ref);
+        ref.parentNode.insertBefore(aJs, ref);
+      }(document));
+      
+      var progress = setInterval(function() {
+        var $bar = $('.bar');
+      
+        if ($bar.width()==400) {
+          clearInterval(progress);
+          $('.progress').removeClass('active');
+        } else {
+          $bar.width($bar.width()+40);
+        }
+        $bar.text($bar.width()/4 + "%");
+      }, 200);
+    
+    </script>
+    
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
+      

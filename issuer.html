@@ -1,0 +1,246 @@
+<html>
+  <head>
+  <meta charset="utf-8">
+    <title>Grade Badge</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-responsive.css" rel="stylesheet">
+    <!--style type="text/css">
+      .thumbnail > img {
+        
+      }
+	  .thumbnails > li {
+	    float : left;
+		
+	  }
+    </style -->
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	
+  <link href="style.css" type="text/css" rel="stylesheet"/>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" onclick="a.screen('title')">GradeBadge</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+			        <li><a href="./">Member Page</a></li>
+              <li><a href="#" onclick="a.screen('groups')">My Groups</a></li>
+              <li id="name"></li>
+              <li id="login" style="display:none;"></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+    
+    <div id="loading" class="container" style="display:block;">
+      <div id="loading_bar" class="progress progress-striped active">
+        <div class="bar" style="width: 0%;"></div>
+      </div>  
+    </div>
+    
+    <div id="login" class="container" style="display:none;"></div>
+    
+    <!-- Profile Page-->
+    <div id="profile" class="container" style="display:none;">
+      <ul id="profile_profile" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- Title Page-->
+    <div id="title" class="container" style="display:none;">
+      Welcome, this is Issuer page.  
+      <!-- script>a.screen('groups');</script -->
+       <button onclick="a.screen('groups')" class="btn btn-primary">View My Groups</button>
+       <br/><br/>
+       <ul id="profile_title" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>
+    </div>
+    
+    <!-- Groups Page -->
+    <div id="groups" class="container" style="display:none;">
+      <h2>Group List I manage:</h2>
+      <a href="#addGroupModal" role="button" class="btn" data-toggle="modal">Add New Group</a>
+      <button id="groups_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i>Refresh</button>
+      <br/><br/>      
+      <ul id="groups_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- Group Badges Page -->
+    <div id="groupBadges" class="container" style="display:none;">
+      <div id="groupname_b"></div>
+      <p>Badges List </p>
+      <a href="#addBadgeModal" role="button" class="btn" data-toggle="modal"><i class="icon-plus-sign icon-white"></i>Add New Badge</a>
+      <button id="group_badges_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i> Refresh</button>
+      <button id="group_badges_back" class="btn btn-primary" onclick="a.screen('groups')" type="button">Back</button>      
+      <br/><br/>
+      <ul id="group_badges_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- Group Members Page -->
+    <div id="groupMembers" class="container" style="display:none;">
+      <div id="groupname_m"></div>
+      <p>Members List </p>
+      <button id="group_badges_refresh" class="btn btn-primary" onclick="a.fbPostGroup(a.v.currGroup)" type="button"><i class="icon-bullhorn icon-white"></i> Invite Friends</button>      
+      <button id="group_badges_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i> Refresh</button>
+      <button id="group_badges_back" class="btn btn-primary" onclick="a.screen('groups')" type="button">Back</button>      
+      <br/><br/>
+      <ul id="group_members_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- Badge Members Page -->
+    <div id="badgeMembers" class="container" style="display:none;">
+      <div id="badgename"></div>
+      <p>Member List </p>
+      <a href="#addBadgeModal" role="button" class="btn" data-toggle="modal">Invite New Member</a>     
+      <button id="group_badges_refresh" class="btn btn-primary" onclick="a.refresh()" type="button"><i class="icon-refresh icon-white"></i> Refresh</button>
+      <button id="group_badges_back" class="btn btn-primary" onclick="a.screen('groupBadges')" type="button">Back to Badge</button>      
+      <button id="group_badges_back" class="btn btn-primary" onclick="a.screen('groups')" type="button">Back to Group</button>
+      <br/><br/>
+      <ul id="badge_members_list" class="thumbnails">
+        <!-- auto generated -->
+		  </ul>  
+    </div>
+    
+    <!-- Add Group Modal-->
+    <div id="addGroupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Add New Group</h3>
+      </div>
+      <div class="modal-body">
+        <p>Group Name        = <input type="text" id="gname"></p>
+        <p>Group Description = <input type="text" id="gdesc"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="saveGroup" data-dismiss="modal" onclick="a.c.saveNewGroup()" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+    
+    <!-- Inivite Member Modal-->
+    <div id="inviteMemberModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Invite Friend to Group</h3>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="saveGroup" data-dismiss="modal" onclick="a.c.saveNewGroup()" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+    
+    <!-- Add Badge Modal-->
+    <div id="addBadgeModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Add New Badge</h3>
+      </div>
+      <div class="modal-body">
+        <p>Badge Name        = <input type="text" id="bname"></p>
+        <p>Badge Description = <input type="text" id="bdesc"></p>
+        <p>Badge Picture = <input type="text" id="bpict"></p> 
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="saveBadge" data-dismiss="modal" onclick="a.c.saveNewBadge()" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  
+    <!-- Login Modal-->
+    <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Facebook Login</h3>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary" type="button" onclick="a.fbLogin()">Facebook Login</button>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  
+    <footer style="text-align: center">
+        <p>&copy; Grade Badge 2013</p>
+    </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    
+    <!--  -->
+    <script>
+      (function() {
+        var n = 2;
+        window.fbAsyncInit = function() {
+          if (--n === 0) {
+            // TODO : How to get FB_APP_ID value from client side
+            //a.fbInit('466760923387961');
+            a.fbInit('FB_APP_ID');
+          }
+        };
+      }());
+
+      (function(d) {
+        var ref = d.getElementsByTagName('script')[0],
+            fbJs = d.createElement('script'),
+            aJs = d.createElement('script');
+        fbJs.id = 'facebook-jssdk'; 
+        fbJs.async = true;
+        fbJs.src = '//connect.facebook.net/en_US/all.js';
+        aJs.async = true;
+        aJs.src = 'app.js';
+        ref.parentNode.insertBefore(fbJs, ref);
+        ref.parentNode.insertBefore(aJs, ref);
+      }(document));
+      
+      var progress = setInterval(function() {
+        var $bar = $('.bar');
+      
+        if ($bar.width()==400) {
+          clearInterval(progress);
+          $('.progress').removeClass('active');
+        } else {
+          $bar.width($bar.width()+40);
+        }
+        $bar.text($bar.width()/4 + "%");
+      }, 200);
+    
+    </script>
+    
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
+      
